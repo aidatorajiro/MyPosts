@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <title>My posts</title>
+    <link rel="stylesheet" href="materialize.min.css">
+    <script src="web3.min.js"></script>
+    <style>
+      div {
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="center">My Posts</h1>
+      <div class="row" id="main_row"></div>
+    </div>
+
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="materialize.min.js"></script>
+    <script>
+      var web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/"));
+      var database = web3.eth.contract([{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"numPosts","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"allPosts","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"content","type":"string"}],"name":"newPost","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]).at("0x00a6d595d093b34e055d328b7f6485b6def2a53a");
+      
+      function errorMessage(err) {
+        $('#main_row').append('<div class="col s12"><div class="card red darken-1"><div class="card-content white-text">' + err + '</div></div></div>');
+      }
+      
+      function addPost (content) {
+        $('#main_row').append('<div class="col s12"><div class="card blue darken-1"><div class="card-content white-text">' + content + '</div></div></div>');
+      }
+      
+      database.numPosts(function (err, num_posts) {
+        if (err) {
+          errorMessage(err);
+        } else {
+          var loop = (function (i) {
+            database.allPosts(i, function (err, content) {
+              if (err) {
+                errorMessage(err);
+              } else {
+                addPost(content);
+                if (i + 1 < num_posts) {
+                  loop(i + 1);
+                }
+              }
+            });
+          });
+          
+          loop(0);
+        }
+      });
+    </script>
+  </body>
+</html>
