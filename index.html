@@ -19,8 +19,7 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script src="materialize.min.js"></script>
     <script>
-      var web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/70b9b9c773644a84964a338d2b2dac95
-"));
+      var web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/70b9b9c773644a84964a338d2b2dac95"));
       var database = web3.eth.contract([{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"numPosts","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"allPosts","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"content","type":"string"}],"name":"newPost","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]).at("0x00a6d595d093b34e055d328b7f6485b6def2a53a");
       
       function errorMessage(err) {
